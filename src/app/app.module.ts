@@ -3,16 +3,23 @@ import { NgModule } from '@angular/core';
 
 
 import { AppComponent } from './app.component';
+import {HttpModule} from '@angular/http';
+import {UserMongoService} from './service/user-mogo.service';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {UserMongoComponent} from './user-mongo/user-mongo.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    UserMongoComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    HttpModule,
+    NgbModule.forRoot()
   ],
-  providers: [],
+  providers: [UserMongoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

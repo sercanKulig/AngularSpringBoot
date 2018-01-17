@@ -1,0 +1,41 @@
+<div class="container">
+  <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Surname</th>
+      <th>Username</th>
+      <th>#</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr style="height: 20px;" *ngFor="let userMongo of users">
+      <th style="width: 40%">{{ userMongo.name }}</th>
+      <th style="width: 40%">{{ userMongo.surname }}</th>
+      <th style="width: 40%">{{ userMongo.username }}</th>
+      <th style="white-space: nowrap">
+        <button type="button" class="btn btn-success btn-xs" (click)="updateUser(userMongo.userId)">Update</button>
+        <button type="button" class="btn btn-danger btn-xs" (click)="deleteUser(userMongo.userId)">Delete</button>
+      </th>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Modal title</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>One fine body&hellip;</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+  </div>
+</ng-template>
+
+<button class="btn btn-lg btn-outline-primary" (click)="open(content)">Open it!</button>
+
