@@ -10,12 +10,19 @@ import {UserMongoComponent} from './user-mongo/user-mongo.component';
 import { UserMongoSaveEditComponent } from './user-mongo/user-mongo-save-edit/user-mongo-save-edit.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {DataTablesModule} from 'angular-datatables';
+import {AppRoutingModule} from './app-routing.module';
+import {SinginComponent} from './auth/singin/singin.component';
+import {SingupComponent} from './auth/singup/singup.component';
+import {AuthService} from './service/auth.service';
+import {RouteProtectionService} from './service/route-protection.service';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     UserMongoComponent,
+    SinginComponent,
+    SingupComponent,
     UserMongoSaveEditComponent
   ],
   imports: [
@@ -24,9 +31,10 @@ import {DataTablesModule} from 'angular-datatables';
     FormsModule,
     ReactiveFormsModule,
     NgbModule.forRoot(),
-    DataTablesModule
+    DataTablesModule,
+    AppRoutingModule
   ],
-  providers: [UserMongoService],
+  providers: [UserMongoService, AuthService, RouteProtectionService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
