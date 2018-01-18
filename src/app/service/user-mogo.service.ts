@@ -3,11 +3,14 @@ import {Subject} from 'rxjs/Subject';
 import 'rxjs/add/operator/map'
 import {Headers, Http, RequestOptions, Response} from '@angular/http';
 import {UserMongoModel} from '../model/user-mongo.model';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class UserMongoService {
   private apiRoot = 'http://localhost:9090/api/';
-  private headers = new Headers();
+  private headers = new Headers({ 'Content-Type': 'application/json'});
+  private options = new RequestOptions({ headers: this.headers });
+
 
   constructor(private http: Http) {
   }
@@ -52,7 +55,25 @@ export class UserMongoService {
       );
   }
 
+  postData(url: string, param: any) : Promise<any> {
+    return this.http
+      .post(this.apiRoot + url, JSON.stringify(param), this.options)
+      .toPromise()
+      .then(res => res.json() as UserMongoModel)
+      .catch(this.handleError);
+  }
+
   putData() {
     return this.http.put(this.apiRoot + 'users', this.getAllUsers());
+  }
+
+  getUserLastId() {
+    const userList = this.users.slice();
+    return userList.length > 0 ? userList.length + 1 : 1;
+  }
+
+  private handleError(error: any): Promise<any> {
+    console.error('An error occurred', error);
+    return Promise.reject(error.message || error);
   }
 }

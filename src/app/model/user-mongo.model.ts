@@ -1,12 +1,24 @@
 export class UserMongoModel {
-  constructor(private _userId: number
-    , private _name: string
-    , private _surname: string
-    , private _username: string
-    , private _password: string
-    , private _email: string
-    , private _roleId: number
-    , private _active: number) {
+
+  private _userId: number;
+  private _name: string;
+  private _surname: string;
+  private _username: string;
+  private _password: string;
+  private _email: string;
+  private _roleId: number;
+  private _active: number;
+
+
+  constructor(userId: number, name: string, surname: string, username: string, password: string, email: string, roleId: number, active: number) {
+    this._userId = userId;
+    this._name = name;
+    this._surname = surname;
+    this._username = username;
+    this._password = password;
+    this._email = email;
+    this._roleId = roleId;
+    this._active = active;
   }
 
   get userId(): number {
