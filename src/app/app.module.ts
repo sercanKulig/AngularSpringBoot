@@ -15,7 +15,8 @@ import {SinginComponent} from './auth/singin/singin.component';
 import {SingupComponent} from './auth/singup/singup.component';
 import {AuthService} from './service/auth.service';
 import {RouteProtectionService} from './service/route-protection.service';
-
+import {HeaderComponent} from './header/header.component';
+import {DropdownDirective} from './directives/dropdown.directive';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,9 @@ import {RouteProtectionService} from './service/route-protection.service';
     UserMongoComponent,
     SinginComponent,
     SingupComponent,
-    UserMongoSaveEditComponent
+    DropdownDirective,
+    UserMongoSaveEditComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,

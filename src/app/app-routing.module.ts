@@ -12,13 +12,6 @@ const appRoutes: Routes = [
       {path: '', component: UserMongoSaveEditComponent }
     ]
   },
-  // {
-  //   path: 'recipes', component: RecipesComponent, canActivate: [RouteProtectionService], children: [
-  //     {path: '', component: RecipeStartComponent },
-  //     {path: 'new', component: RecipeEditComponent},
-  //     {path: ':id', component: RecipeDetailComponent },
-  //     {path: ':id/edit', component: RecipeEditComponent},
-  //   ]},
   // {path: 'shopping-list', component: ShoppingListComponent, canActivate: [RouteProtectionService]},
   {path: 'signup', component: SingupComponent},
   {path: 'signin', component: SinginComponent},

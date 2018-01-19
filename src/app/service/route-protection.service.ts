@@ -11,7 +11,7 @@ export class RouteProtectionService implements CanActivate{
               private authService: AuthService) {
   }
 
-  onRootProtectionRecipe(users: UserMongoModel) {
+  onRootProtectionUser(users: UserMongoModel) {
     if (users == null) {
       this.router.navigate([''], {relativeTo: this.route});
     }
