@@ -24,8 +24,11 @@ export class AuthService {
       .toPromise()
       .then(
         response => {
-          this.router.navigate(['/']);
-          this.userExist = true;
+          if(response.json() == true){
+            this.router.navigate(['/']);
+            /* userExist yerine token gelmesi lazım */
+            this.userExist = true;
+          }
         }
       )
       .catch(this.handleError);
@@ -36,7 +39,7 @@ export class AuthService {
   }
 
   isAuthenticated() {
-    return this.userExist;
+    return this.userExist != null;
   }
 
   logout() {

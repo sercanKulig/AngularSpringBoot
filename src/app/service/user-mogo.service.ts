@@ -1,6 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import 'rxjs/add/operator/map'
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/throw';
 import {Headers, Http, RequestOptions, Response} from '@angular/http';
 import {UserMongoModel} from '../model/user-mongo.model';
 import {Observable} from 'rxjs/Observable';
@@ -8,8 +11,8 @@ import {Observable} from 'rxjs/Observable';
 @Injectable()
 export class UserMongoService {
   private apiRoot = 'http://localhost:9090/api/';
-  private headers = new Headers({ 'Content-Type': 'application/json'});
-  private options = new RequestOptions({ headers: this.headers });
+  private headers = new Headers({'Content-Type': 'application/json'});
+  private options = new RequestOptions({headers: this.headers});
 
 
   constructor(private http: Http) {
@@ -19,7 +22,10 @@ export class UserMongoService {
   users: UserMongoModel[] = [];
 
   getAllUsers() {
-    this.fetchData();
+    this.fetchData()
+      .subscribe(
+        this.userChange.next
+      );
     return this.users.slice();
   }
 
@@ -27,19 +33,31 @@ export class UserMongoService {
     this.deleteData(id);
   }
 
-  fetchData() {
-    this.http.get(this.apiRoot + 'users')
+  /*  fetchData(): Observable<UserMongoModel[]> {
+      return this.http.get(this.apiRoot + 'users')
+        .map(
+          (response: Response) => {
+            this.users = response.json();
+            return this.users;
+          }
+        )
+        .subscribe(
+          (user: UserMongoModel[]) => {
+            this.userChange.next(this.users.slice());
+          }
+        );
+    }*/
+
+  public fetchData(): Observable<UserMongoModel[]> {
+    return this.http
+      .get(this.apiRoot + 'users')
       .map(
-        (response: Response) => {
+        response => {
           this.users = response.json();
           return this.users;
         }
       )
-      .subscribe(
-        (user: UserMongoModel[]) => {
-          this.userChange.next(this.users.slice());
-        }
-      );
+      .catch(this._serverError)
   }
 
   deleteData(id: number): void {
@@ -55,12 +73,15 @@ export class UserMongoService {
       );
   }
 
-  postData(url: string, param: any) : Promise<any> {
+  postData(url: string, param: any): Promise<any> {
     return this.http
       .post(this.apiRoot + url, JSON.stringify(param), this.options)
       .toPromise()
       .then(res => res.json() as UserMongoModel)
-      .catch(this.handleError);
+      .then(response => {
+        this.getAllUsers();
+      })
+      .catch(this._serverError);
   }
 
   putData() {
@@ -69,11 +90,17 @@ export class UserMongoService {
 
   getUserLastId() {
     const userList = this.users.slice();
-    return userList.length > 0 ? userList.length + 1 : 1;
+    return userList.length > 0 ? userList.slice(-1)[0].userId + 1 : 1;
   }
 
-  private handleError(error: any): Promise<any> {
-    console.error('An error occurred', error);
-    return Promise.reject(error.message || error);
+  private _serverError(err: any) {
+    console.log('sever error:', err);  // debug
+    if (err instanceof Response) {
+      return Observable.throw(err.json().error || 'backend server error');
+      // if you're using lite-server, use the following line
+      // instead of the line above:
+      //return Observable.throw(err.text() || 'backend server error');
+    }
+    return Observable.throw(err || 'backend server error');
   }
 }

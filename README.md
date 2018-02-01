@@ -33,3 +33,5 @@ npm install datatables.net-dt --save
 npm install angular-datatables --save
 npm install @types/jquery --save-dev
 npm install @types/datatables.net --save-dev
+npm install bootstrap@4.0.0-alpha.6
+npm install ng2-toasty --save

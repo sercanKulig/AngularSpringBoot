@@ -17,6 +17,7 @@ import {AuthService} from './service/auth.service';
 import {RouteProtectionService} from './service/route-protection.service';
 import {HeaderComponent} from './header/header.component';
 import {DropdownDirective} from './directives/dropdown.directive';
+import {ToastyModule} from 'ng2-toasty';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import {DropdownDirective} from './directives/dropdown.directive';
     FormsModule,
     ReactiveFormsModule,
     NgbModule.forRoot(),
+    ToastyModule.forRoot(),
     DataTablesModule,
     AppRoutingModule
   ],
